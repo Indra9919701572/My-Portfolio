@@ -23,7 +23,7 @@ Currently pursuing **BCA (Data Science specialization)** and building projects u
 # ---------------------------
 col1, col2 = st.columns(2)
 with col1:
-    st.image("assets/myphoto.jpg", width=250, caption="Indra Prajapati")
+    st.image("Gemini_Generated_Image_an8kfoan8kfoan8k", width=250, caption="Indra Prajapati")
 with col2:
     st.subheader("🎥 My Introduction Video")
     st.video("https://www.youtube.com/watch?v=YOUR_VIDEO_LINK")  # replace with your video link
