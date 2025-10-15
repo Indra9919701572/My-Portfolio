@@ -1,116 +1,146 @@
 import streamlit as st
-from PIL import Image
+from pathlib import Path
+import smtplib
+from email.message import EmailMessage
 
-# ------------------------------
-# PAGE CONFIG
-# ------------------------------
-st.set_page_config(page_title="My Portfolio", page_icon="🎯", layout="wide")
+# ---------------------------
+# PAGE CONFIGURATION
+# ---------------------------
+st.set_page_config(page_title="Indra Prajapati | Data Science Portfolio", page_icon="💼", layout="wide")
 
-# ------------------------------
+# ---------------------------
 # HEADER SECTION
-# ------------------------------
-st.title("👋 Welcome to My Portfolio Website")
-st.write("Created with ❤️ using Streamlit")
+# ---------------------------
+st.title("💼 Data Science Portfolio")
+st.write("### 👋 Hi, I'm **Indra Prajapati**, a Data Science and Machine Learning Enthusiast.")
+st.write("""
+I’m passionate about turning data into actionable insights and intelligent systems.  
+Currently pursuing **BCA (Data Science specialization)** and building projects using **Machine Learning, Python, and Streamlit**.
+""")
 
-# Add a sidebar for navigation
-st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to", ["Home", "Skills", "Projects", "Certifications", "Contact"])
+# ---------------------------
+# PHOTO & INTRO VIDEO
+# ---------------------------
+col1, col2 = st.columns(2)
+with col1:
+    st.image("assets/myphoto.jpg", width=250, caption="Indra Prajapati")
+with col2:
+    st.subheader("🎥 My Introduction Video")
+    st.video("https://www.youtube.com/watch?v=YOUR_VIDEO_LINK")  # replace with your video link
 
-# ------------------------------
-# HOME SECTION
-# ------------------------------
-if page == "Home":
-    st.header("🏠 Home")
-    col1, col2 = st.columns([1, 2])
+# ---------------------------
+# RESUME DOWNLOAD SECTION
+# ---------------------------
+st.markdown("---")
+st.header("📄 Resume")
+with open("assets/resume.pdf", "rb") as file:
+    btn = st.download_button(
+        label="⬇️ Download My Resume",
+        data=file,
+        file_name="Indra_Prajapati_Resume.pdf",
+        mime="application/pdf"
+    )
 
-    with col1:
-        # Replace with your image path
-        image = Image.open("resume pic.jpg")   # <-- put your photo in the same folder
-        st.image(image, width=250)
-
-    with col2:
-        st.subheader("Hello! I'm Indra Kumar Prajapati")
-        st.write("""
-        🎓 I'm a passionate **Data Science / Machine Learning / Web Development** enthusiast.  
-        💡 I love building intelligent systems and data-driven applications.  
-        🌱 I’m constantly learning new tools and technologies to improve my skills.
-        """)
-
-        st.video("https://www.youtube.com/watch?v=YOUR_VIDEO_ID")  # <-- replace with your YouTube link
-
-# ------------------------------
+# ---------------------------
 # SKILLS SECTION
-# ------------------------------
-elif page == "Skills":
-    st.header("💼 Skills")
-    st.write("""
-    - **Programming Languages:** Python, C++, Java  
-    - **Web Development:** HTML, CSS, JavaScript, Streamlit, Flask  
-    - **Data Science & ML:** NumPy, Pandas, Scikit-learn, Matplotlib, Seaborn  
-    - **Databases:** MySQL, MongoDB  
-    - **Tools:** Git, VS Code, Jupyter Notebook  
-    """)
+# ---------------------------
+st.markdown("---")
+st.header("🧠 Skills")
+skills = {
+    "Programming": "Python, SQL, HTML, CSS, JavaScript",
+    "Data Science": "Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn",
+    "Machine Learning": "Regression, Classification, Clustering, Model Evaluation",
+    "Other Tools": "Git, Streamlit, Power BI, Excel, VS Code"
+}
+for k, v in skills.items():
+    st.write(f"**{k}:** {v}")
 
-# ------------------------------
+# ---------------------------
 # PROJECTS SECTION
-# ------------------------------
-elif page == "Projects":
-    st.header("🚀 Projects")
+# ---------------------------
+st.markdown("---")
+st.header("🚀 Projects")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("Credit Scoring Model")
     st.write("""
-    ### 📊 Customer Churn Prediction
-    - **Description:** Predicted whether a customer will leave the company using logistic regression.  
-    - **Tech Stack:** Python, Pandas, Scikit-learn, Matplotlib  
-    - **GitHub:** [View Project](https://github.com/yourusername/yourproject)
-
-    ### 🤖 Movie Recommendation System
-    - **Description:** Suggested movies based on user preferences using content-based filtering.  
-    - **Tech Stack:** Python, Streamlit, NLP  
-    - **GitHub:** [View Project](https://github.com/yourusername/yourproject2)
+    Predicts customer creditworthiness using financial data.  
+    Algorithms used: Logistic Regression, Random Forest.  
     """)
+    st.markdown("[🔗 View on GitHub](https://github.com/yourusername/credit-scoring-model)")
 
-# ------------------------------
-# CERTIFICATIONS / ACHIEVEMENTS
-# ------------------------------
-elif page == "Certifications":
-    st.header("🏅 Certifications & Achievements")
+with col2:
+    st.subheader("Customer Churn Prediction")
     st.write("""
-    - 🧠 **Machine Learning with Python** – Coursera  
-    - 🌐 **Web Development Bootcamp** – Udemy  
-    - 🥇 **Top Performer in Data Science Hackathon**  
-    - 📜 **Python for Data Analysis** – Kaggle  
+    Predicts which customers are likely to stop using a service using classification models.  
     """)
+    st.markdown("[🔗 View on GitHub](https://github.com/yourusername/churn-prediction)")
 
-# ------------------------------
-# CONTACT SECTION
-# ------------------------------
-elif page == "Contact":
-    st.header("📞 Contact Me")
+st.write("")
 
-    st.write("Feel free to reach out for collaboration or any queries!")
+col3, col4 = st.columns(2)
 
-    contact_form = """
-    <form action="https://formsubmit.co/YOUR_EMAIL" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required>
-        <input type="email" name="email" placeholder="Your Email" required>
-        <textarea name="message" placeholder="Your Message here" required></textarea>
-        <button type="submit">Send</button>
-    </form>
-    """
+with col3:
+    st.subheader("Movie Recommendation System")
+    st.write("Built a recommendation system using cosine similarity and content-based filtering.")
+    st.markdown("[🔗 View on GitHub](https://github.com/yourusername/movie-recommendation)")
 
-    st.markdown(contact_form, unsafe_allow_html=True)
+with col4:
+    st.subheader("Data Visualization Dashboard")
+    st.write("Created interactive dashboards using Streamlit and Plotly.")
+    st.markdown("[🔗 View on GitHub](https://github.com/yourusername/data-dashboard)")
 
-    st.write("📧 Email: 9919indrakumar@gmail.com")
-    st.write("🌐 LinkedIn: [linkedin.com/in/indra-prajapati-1099888280](https://linkedin.com/in/indra-prajapati-1099888280)")
-    st.write("💻 GitHub: [github.com/Indra9919701572](https://github.com/Indra9919701572)")
+# ---------------------------
+# CERTIFICATIONS SECTION
+# ---------------------------
+st.markdown("---")
+st.header("🏅 Certifications & Achievements")
+st.write("""
+- **Machine Learning Internship** — CodeAlpha  
+- **Python for Data Science** — Coursera  
+- **Data Analytics Certificate** — Kaggle  
+- **Streamlit App Development** — Self Project
+""")
 
-# ------------------------------
-# CUSTOM CSS
-# ------------------------------
-st.markdown("""
-<style>
-    form input, form textarea {width: 100%; padding: 10px; margin: 5px 0; border-radius: 10px; border: 1px solid #ccc;}
-    form button {background-color: #0078ff; color: white; border: none; padding: 10px 20px; border-radius: 10px;}
-    form button:hover {background-color: #005fcc;}
-</style>
-""", unsafe_allow_html=True)
+# ---------------------------
+# CONTACT FORM SECTION
+# ---------------------------
+st.markdown("---")
+st.header("📬 Contact Me")
 
+with st.form("contact_form"):
+    name = st.text_input("Your Name")
+    email = st.text_input("Your Email")
+    message = st.text_area("Your Message")
+    submit = st.form_submit_button("Send Message")
+
+    if submit:
+        if name and email and message:
+            # Email sending setup (use your own SMTP credentials)
+            sender_email = "your_email@gmail.com"
+            sender_password = "YOUR_APP_PASSWORD"  # use App Password (not main password)
+            receiver_email = "your_email@gmail.com"
+
+            msg = EmailMessage()
+            msg.set_content(f"New message from {name} ({email}):\n\n{message}")
+            msg["Subject"] = "New Portfolio Message"
+            msg["From"] = sender_email
+            msg["To"] = receiver_email
+
+            try:
+                with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
+                    smtp.login(sender_email, sender_password)
+                    smtp.send_message(msg)
+                st.success("✅ Message sent successfully! Thank you for reaching out.")
+            except Exception as e:
+                st.error(f"❌ Error sending message: {e}")
+        else:
+            st.warning("Please fill out all fields before submitting.")
+
+# ---------------------------
+# FOOTER
+# ---------------------------
+st.markdown("---")
+st.write("Made with ❤️ by **Indra Prajapati** using [Streamlit](https://streamlit.io)")
